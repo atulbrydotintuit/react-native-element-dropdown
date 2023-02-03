@@ -52,11 +52,11 @@ export const styles = StyleSheet.create({
     height: 20,
   },
   input: {
-    borderWidth: 0.5,
+    borderWidth: 0,
     borderColor: '#DDDDDD',
-    paddingHorizontal: 8,
-    marginBottom: 2,
-    margin: 6,
-    height: 45,
+    paddingHorizontal: 0,
+    marginBottom: 0,
+    margin: 0,
+    height: 40,
   },
 });

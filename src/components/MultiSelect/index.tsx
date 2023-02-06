@@ -497,7 +497,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
               showsVerticalScrollIndicator={showsVerticalScrollIndicator}
             />
             {renderSearch()}
-            {renderFooter()}
+            {renderFooter && renderFooter()}
           </View>
         </TouchableWithoutFeedback>
       );
@@ -526,7 +526,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
               keyExtractor={(_item, index) => index.toString()}
               showsVerticalScrollIndicator={showsVerticalScrollIndicator}
             />
-            {renderFooter()}
+            {renderFooter && renderFooter()}
           </View>
         </TouchableWithoutFeedback>
       );

@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useImperativeHandle } from 'react';
 import {
   Image,
   TextInput,
@@ -21,7 +21,8 @@ const defaultProps = {
   numeric: false,
 };
 
-const TextInputComponent: CTextInput = (props) => {
+//const TextInputComponent: CTextInput = (props) => {
+const TextInputComponent: CTextInput = React.forwardRef((props, currentRef) => {
   const {
     fontFamily,
     style,
@@ -31,12 +32,13 @@ const TextInputComponent: CTextInput = (props) => {
     showIcon,
     inputStyle,
     iconStyle,
-    onChangeText = (_value: string) => {},
+    onChangeText = (_value: string) => { },
     renderLeftIcon,
     renderRightIcon,
   } = props;
 
   const [text, setText] = useState<string>('');
+  const textInputRef = useRef<TextInput>(null);
 
   useEffect(() => {
     if (value) {
@@ -79,12 +81,21 @@ const TextInputComponent: CTextInput = (props) => {
     }
   };
 
+  const eventFocus = () => {
+    textInputRef.current.focus();
+  }
+
+  useImperativeHandle(currentRef, () => {
+    return { focus: eventFocus };
+  });
+
   return (
     <TouchableWithoutFeedback>
       <View style={[style]}>
         <View style={styles.textInput}>
           {renderLeftIcon?.()}
           <TextInput
+            ref={textInputRef}
             {...props}
             style={StyleSheet.flatten([styles.input, inputStyle, font()])}
             value={text}
@@ -97,7 +108,7 @@ const TextInputComponent: CTextInput = (props) => {
       </View>
     </TouchableWithoutFeedback>
   );
-};
+});
 
 TextInputComponent.defaultProps = defaultProps;
 

@@ -30,6 +30,7 @@ import _ from 'lodash';
 
 const { isTablet, isIOS } = useDetectDevice;
 const ic_down = require('../../assets/down.png');
+let timeoutRef;
 
 const defaultProps = {
   placeholder: 'Select item',
@@ -102,6 +103,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
     const [focus, setFocus] = useState<boolean>(false);
     const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
     const [searchText, setSearchText] = useState('');
+    const textInputRef = useRef<CInput>(null);
 
     const { width: W, height: H } = Dimensions.get('window');
     const styleContainerVertical: ViewStyle = useMemo(() => {
@@ -222,6 +224,15 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
     useEffect(() => {
       getValue();
     }, [getValue, value]);
+
+    useEffect(() => {
+      if (visible && search)
+        timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
+      else
+        if (timeoutRef)
+          clearTimeout(timeoutRef)
+
+    }, [visible, search]);
 
     const showOrClose = useCallback(() => {
       if (!disable) {
@@ -443,6 +454,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
         } else {
           return (
             <CInput
+              ref={textInputRef}
               testID={testID + ' input'}
               accessibilityLabel={accessibilityLabel + ' input'}
               style={[styles.input, inputSearchStyle]}
@@ -548,8 +560,8 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
             dropdownPosition === 'auto'
               ? bottom < (isIOS ? 200 : search ? 310 : 300)
               : dropdownPosition === 'top'
-              ? true
-              : false;
+                ? true
+                : false;
           let topHeight = isTopPosition ? top - height : top;
 
           let keyboardStyle: ViewStyle = {};

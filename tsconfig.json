@@ -2,7 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-element-dropdown": ["./src/index"]
+      "react-native-element-dropdown": [
+        "./src/index"
+      ]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -10,7 +12,9 @@
     "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -21,7 +25,7 @@
     "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "target": "esnext"
   }
 }

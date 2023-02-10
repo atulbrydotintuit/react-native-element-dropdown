@@ -7,6 +7,9 @@ import type {
   ViewStyle,
 } from 'react-native';
 
+export type ICTextInputRef = {
+  focus: () => void;
+};
 interface Props extends TextInputProps {
   fontFamily?: string;
   style?: StyleProp<ViewStyle>;

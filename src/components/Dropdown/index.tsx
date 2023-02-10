@@ -22,6 +22,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import CInput from '../TextInput';
+import type { ICTextInputRef } from '../TextInput/model';
 import { useDeviceOrientation } from '../../useDeviceOrientation';
 import { useDetectDevice } from '../../toolkits';
 import { styles } from './styles';
@@ -30,7 +31,7 @@ import _ from 'lodash';
 
 const { isTablet, isIOS } = useDetectDevice;
 const ic_down = require('../../assets/down.png');
-let timeoutRef;
+let timeoutRef: ReturnType<typeof setTimeout> | null;
 
 const defaultProps = {
   placeholder: 'Select item',
@@ -98,7 +99,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
     const [focus, setFocus] = useState<boolean>(false);
     const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
     const [searchText, setSearchText] = useState('');
-    const textInputRef = useRef<CInput>(null);
+    const textInputRef = useRef<ICTextInputRef>(null);
 
     const { width: W, height: H } = Dimensions.get('window');
     const styleContainerVertical: ViewStyle = useMemo(() => {
@@ -236,11 +237,14 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
     }, [value, data, getValue]);
 
     useEffect(() => {
-      if (visible && search)
-        timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
-      else
+      if (visible && search) {
+        if (textInputRef && textInputRef.current)
+          timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
+      }
+      else {
         if (timeoutRef)
-          clearTimeout(timeoutRef)
+          clearTimeout(timeoutRef);
+      }
 
     }, [visible, search]);
 
@@ -483,6 +487,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
       }
       return null;
     }, [
+      ref,
       accessibilityLabel,
       font,
       iconColor,

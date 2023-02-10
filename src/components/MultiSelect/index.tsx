@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import type { ICTextInputRef } from '../TextInput/model';
 import {
   Dimensions,
   FlatList,
@@ -30,7 +31,7 @@ import _ from 'lodash';
 
 const { isTablet, isIOS } = useDetectDevice;
 const ic_down = require('../../assets/down.png');
-let timeoutRef;
+let timeoutRef: ReturnType<typeof setTimeout> | null;
 
 const defaultProps = {
   placeholder: 'Select item',
@@ -103,7 +104,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
     const [focus, setFocus] = useState<boolean>(false);
     const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
     const [searchText, setSearchText] = useState('');
-    const textInputRef = useRef<CInput>(null);
+    const textInputRef = useRef<ICTextInputRef>(null);
 
     const { width: W, height: H } = Dimensions.get('window');
     const styleContainerVertical: ViewStyle = useMemo(() => {
@@ -226,11 +227,14 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
     }, [getValue, value]);
 
     useEffect(() => {
-      if (visible && search)
-        timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
-      else
+      if (visible && search) {
+        if (textInputRef && textInputRef.current)
+          timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
+      }
+      else {
         if (timeoutRef)
-          clearTimeout(timeoutRef)
+          clearTimeout(timeoutRef);
+      }
 
     }, [visible, search]);
 

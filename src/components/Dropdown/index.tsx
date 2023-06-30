@@ -373,7 +373,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
             </Text>
             {renderRightIcon ? (
               renderRightIcon()
-            ) : (
+            ) : (search ? null :
               <Image
                 source={ic_down}
                 style={StyleSheet.flatten([

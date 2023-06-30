@@ -361,7 +361,7 @@ const MultiSelectComponent = React.forwardRef<any, MultiSelectProps>(
             </Text>
             {renderRightIcon ? (
               renderRightIcon()
-            ) : (
+            ) : (search ? null :
               <Image
                 source={ic_down}
                 style={StyleSheet.flatten([

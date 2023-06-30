@@ -239,7 +239,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
     useEffect(() => {
       if (visible && search) {
         if (textInputRef && textInputRef.current)
-          timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 100);
+          timeoutRef = setTimeout(() => { textInputRef.current.focus(), timeoutRef = null }, 200);
       }
       else {
         if (timeoutRef)
